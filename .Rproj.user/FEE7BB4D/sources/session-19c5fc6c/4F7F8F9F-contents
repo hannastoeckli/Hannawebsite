@@ -1,7 +1,7 @@
 ---
 title: "About me"
 description: |
-  My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations.
+  My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations. The third semester is all about extraction of the 50 included studies in the scoping review as well as working with the data from the survey - see Home.
 ---
 
 ```{r setup, include=FALSE}

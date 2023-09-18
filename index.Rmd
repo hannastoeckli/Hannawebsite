@@ -1,9 +1,9 @@
 ---
 title: "Welcome to Hannas Website"
-image: "basel.jpg"
+image: "negotiation.png"
 
 description: |
-  Have a nice day!
+  The next graphic shows the main result of my masters survey. Until now, there are only few participants in it.
 site: distill::distill_website
 ---
 
@@ -16,6 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-![Sunset in Basel](basel.jpg)
+![Here you can see a profile of face-to-face negotiations and e-negotiations. Participants were asked about their personal experiences with negotiations in the two contexts (ftf vs. e-). The final goal is to create different profiles of negotiations and to discover possible trends in an explorative way.](negotiation.png)
 
 

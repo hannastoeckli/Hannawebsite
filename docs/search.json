@@ -3,18 +3,18 @@
     {
       "path": "about.html",
       "title": "About me",
-      "description": "My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations.",
+      "description": "My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations. The third semester is all about extraction of the 50 included studies in the scoping review as well as working with the data from the survey - see Home.",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2023-09-18T14:43:31+02:00"
+      "last_modified": "2023-09-18T14:54:16+02:00"
     },
     {
       "path": "index.html",
       "title": "Welcome to Hannas Website",
-      "description": "Have a nice day!\n",
+      "description": "The next graphic shows the main result of my masters survey. Until now, there are only few participants in it.\n",
       "author": [],
-      "contents": "\r\nSunset in Basel\r\n\r\n\r\n",
-      "last_modified": "2023-09-18T14:43:32+02:00"
+      "contents": "\r\nHere you can see a profile of face-to-face negotiations and e-negotiations. Participants were asked about their personal experiences with negotiations in the two contexts (ftf vs. e-). The final goal is to create different profiles of negotiations and to discover possible trends in an explorative way.\r\n\r\n\r\n",
+      "last_modified": "2023-09-18T14:54:17+02:00"
     }
   ],
   "collections": []
