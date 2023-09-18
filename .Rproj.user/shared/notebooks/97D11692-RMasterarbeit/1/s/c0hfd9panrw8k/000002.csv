@@ -1,0 +1,7 @@
+"0","```r
+number<-c(paste0(\"expe\", 1:9), paste0(\"expftf\", 1:8)) #suche die betroffenen Spalten aus
+for(i in number){
+  d1[d1[,i]==\"1 = Ich stimme gar nicht zu\"&!is.na(d1[,i]),i] <- 1 #umbennenen
+  d1[d1[,i]==\"7 = Ich stimme voll und ganz zu\"&!is.na(d1[,i]),i] <- 7 #umbenennen
+}
+```"

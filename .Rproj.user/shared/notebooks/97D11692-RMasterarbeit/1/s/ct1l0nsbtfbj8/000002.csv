@@ -1,0 +1,43 @@
+"0","```r
+# Filtere nach expe-Spalten und setze Werte außerhalb von 1-7 auf NA
+expe_columns <- d2[, grep(\"^expe\\d$\", names(d2))]
+expe_columns[expe_columns < 1 | expe_columns > 7] <- NA
+
+# Exkludiere expe7 aus der Berechnung des Durchschnitts (Konfort mit Computeruse)
+expe_columns <- expe_columns %>%
+  select(-expe7)
+
+# Berechne den Durchschnitt (Mean) der Antworten für jede expe-Frage
+expe_means <- expe_columns %>%
+  summarise(across(everything(), ~ mean(., na.rm = TRUE)))
+
+# Melt für die Darstellung als Balkendiagramm
+expe_melted <- pivot_longer(expe_means, cols = everything(), names_to = \"variable\", values_to = \"mean_value\") %>%
+  mutate(variable = factor(variable, levels = colnames(expe_columns)))  # Reihenfolge beibehalten
+
+# Balkendiagramm der Durchschnittswerte
+expe_plot <- ggplot(expe_melted, aes(x = variable, y = mean_value, fill = variable)) +
+  geom_bar(stat = \"identity\", fill = \"gray\") +  # Alle Balken in Grau
+   geom_text(aes(label = round(mean_value, 2)), vjust = -0.5, color = \"black\") +  # Textlabels mit gerundetem Durchschnitt
+  labs(title = \"Experience with e-Negotiation\") +
+  labs(fill = \"expe-Fragen\") +
+  labs(x = \"Fragen\",
+       y = \"Durchschnittliche Antwort\") +
+  theme(axis.text.x = element_text(hjust = 1))+
+  labs(x = \" \",
+       y = \"Accuracy\") +
+  scale_x_discrete(labels = c(
+    \"expe1\" = \"I felt the information provided by my partner was accurate\",
+    \"expe2\" = \"My partner was truthful in negotiating with me\",
+    \"expe3\" = \"VMy partner was a credible source of information\",
+    \"expe4\" = \"I was truthful in negotiating with my partner\",
+    \"expe5\" = \"I provided my partner with accurate information\",
+    \"expe6\" = \"I was a credible source of information\",
+    \"expe7\" = \"I am well acquainted with electronic devices\",
+    \"expe8\" = \"I felt comfortable communicating with my partner\",
+    \"expe9\" = \"If I had to do this again, I would use dishonesty to increase my profit\"
+  )) +
+  coord_flip()  # Hier wird die Tabelle umgedreht
+# Diagramm anzeigen
+expe_plot
+```"

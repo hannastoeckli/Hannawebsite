@@ -1,0 +1,10 @@
+"0","```r
+originalcolnames<-colnames(d) #hier speichere ich die originalnamen in originalcolnames ab
+colnames(d)<-paste0(\"C\", 1:ncol(d)) #alle spalten nach nummern bzw nach C1, C2,... benennen
+colnames(d)[16:23]<-paste0(\"expftf\", 1:8) #spezifische spalten umbenennen nach nummern
+colnames(d)[32:40]<-paste0(\"expe\", 1:9)
+colnames(d)[24:30]<-paste0(\"contentftf\", 1:7)
+colnames(d)[41:47]<-paste0(\"contente\", 1:7)
+colnames(d)[48:55]<-paste0(\"mediume\", 1:8)
+d
+```"

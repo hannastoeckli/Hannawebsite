@@ -1,0 +1,23 @@
+"0","```r
+Berufszweig <- c(\"C12\")  # Suche die betroffene Spalte aus
+
+for (i in Berufszweig) {
+  
+  d1[d1[, i] %in% c(\"Wissenschaftliche oder akademische BerufeNaturwissenschaftler/innen, Mathematiker/innen und Ingenieur/innenSpezialisten/innen in GesundheitsberufenLehrkräfteBetriebswirte und vergleichbare Spezialisten/innenSpezialisten/innen in der Informations- und KommunikationstechnologieJuristen/innen, Sozialwissenschaftler/innen und Kulturberufe\") & !is.na(d1[, i]), i] <- \"Wissenschaftliche oder akademische Berufe\"
+  
+  d1[d1[, i] %in% c(\"Bürokräfte und verwandte BerufeAllgemeine Büro- und SekretariatskräfteBürokräfte mit KundenkontaktBürokräfte Finanz- u. Rechnungswesen, Statistik und MaterialwirtschaftSonstige Bürokräfte und verwandte Berufe \") & !is.na(d1[, i]), i] <- \"Bürokräfte und verwandte Berufe\"
+  
+  d1[d1[, i] %in% c(\"FührungskräfteGeschäftsführer/innen, Vorstände, leitende Verwaltungsbedienstete u. gesetzgebenden KörperschaftenFührungskräfte im kaufmännischen BereichFührungskräfte in Produktion und spezialisierten DienstleistungenFührungskräfte in Hotels, Restaurants, Handel und sonst. Dienstleistungen\") & !is.na(d1[, i]), i] <- \"Führungskräfte\"
+  
+  d1[d1[, i] %in% c(\"HilfsarbeitskräfteReinigungspersonal und HilfskräfteHilfskräfte in  Land-, Forstwirtschaft u. FischereiHilfskräfte im Bergbau, Bau, bei der Herstellung von Waren u. im TransportwesenHilfskräfte in der NahrungsmittelzubereitungAbfallentsorgungspersonal und sonstige Hilfsarbeitskräfte\") & !is.na(d1[, i]), i] <- \"Hilfsarbeitskräfte\"
+  
+  d1[d1[, i] %in% c(\"Handwerks- und verwandte BerufeBau- u. Ausbaufachkräfte sowie verwandte Berufe, ausgen. Elektriker/innenMetallarbeiter/innen, Mechaniker/innen, Polymechaniker/innen, Produktionsmechaniker/innen und verwandte BerufePräzisionshandwerker/innen, Drucker/innen und kunsthandwerkliche BerufeElektriker/innen und Elektroniker/innenNahrungsmittelverarbeitung, Bekleidungsherstellung und verwandte handwerkliche Berufe\") & !is.na(d1[, i]), i] <- \"Handwerks- und verwandte Berufe\"
+  
+  d1[d1[, i] %in% c(\"Fachkräfte in Land- und Forstwirtschaft und FischereiFachkräfte in der LandwirtschaftFachkräfte in Forstwirtschaft, Fischerei und Jagd – Marktproduktion\") & !is.na(d1[, i]), i] <- \"Fachkräfte in Land- und Forstwirtschaft und Fischerei\"
+  
+  d1[d1[, i] %in% c(\"Bedienen von Anlagen u. Maschinen und MontageberufeBedienen stationärer Anlagen und MaschinenMontageberufeFahrzeugführen und bedienen mobiler Anlagen\") & !is.na(d1[, i]), i] <- \"Bedienen von Anlagen u. Maschinen und Montageberufe\"
+  
+  d1[d1[, i] %in% c(\"Dienstleistungsberufe und Verkäufer/innenBerufe im Bereich personenbezogener DienstleistungenVerkaufskräfteBetreuungsberufeSchutzkräfte und Sicherheitsbedienstete\") & !is.na(d1[, i]), i] <- \"Dienstleistungsberufe und Verkäufer/innen\"
+
+} #umbennenen
+```"

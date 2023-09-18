@@ -1,0 +1,29 @@
+"0","```r
+expe_melted <- pivot_longer(expe_columns, cols = everything(), names_to = \"variable\") %>%
+  group_by(variable, value) %>%
+  summarize(count = sum(!is.na(value))) %>%
+  ggplot(aes(x = variable, y = count, fill = factor(value))) +
+  geom_bar(stat = \"identity\", position = \"dodge\") +
+  labs(title = \"Erfahrungen mit online Verhandlungen\") +
+  scale_fill_discrete(labels = c(\"1\" = \"1 = Ich stimme gar nicht zu\", \"7\" = \"7 = Ich stimme voll und ganz zu\")) +
+  labs(fill = \"Antworten\") +
+  labs(x = \"Skalenfragen\",
+       y = \"Anzahl Personen\") +
+  scale_x_discrete(labels = c(
+    \"expe1\" = \"Korrektheit der erhaltenen Information\",
+    \"expe2\" = \"Ehrlichkeit Verhandlungspartner:in\",
+    \"expe3\" = \"Verhandlungspartner:in war glaubwürdige Informationsquelle\",
+    \"expe4\" = \"Eigene Ehrlichkeit\",
+    \"expe5\" = \"Korrektheit eigener Informationen\",
+    \"expe6\" = \"Ich war glaubwürdige Informationsquelle\",
+    \"expe7\" = \"Elektronische Kenntnisse\",
+    \"expe8\" = \"Wohlfühlen bei der Kommunikation\",
+    \"expe9\" = \"Zukünftige eigene Unehrlichkeit bei Verhandlungen\"
+  )) +
+  coord_flip()  #Tabelle umdrehen
+```"
+"1","`summarise()` has grouped output by 'variable'. You can override using the `.groups` argument.
+"
+"0","```r
+expe_melted
+```"

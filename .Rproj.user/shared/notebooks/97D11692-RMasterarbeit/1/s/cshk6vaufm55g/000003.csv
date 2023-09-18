@@ -1,0 +1,4 @@
+"0","```r
+vergleichexp
+ggsave(\"HannaStoeckli_Vergleichexp.pdf\", vergleichexp, width=15, height=8) #speichern als pdf, im selben Ordner wie die Daten her sind
+```"

@@ -1,0 +1,371 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+#load packages
+library(readxl)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+```
+
+```{r}
+d  <- read_excel("C:\\Users\\hasto\\OneDrive\\Desktop\\results-survey137382.xlsx")
+d
+```
+Spaltennamen umtaufen
+```{r}
+originalcolnames<-colnames(d) #hier speichere ich die originalnamen in originalcolnames ab
+colnames(d)<-paste0("C", 1:ncol(d)) #alle spalten nach nummern bzw nach C1, C2,... benennen
+colnames(d)[16:23]<-paste0("expftf", 1:8) #spezifische spalten umbenennen nach nummern
+colnames(d)[32:40]<-paste0("expe", 1:9)
+colnames(d)[24:30]<-paste0("contentftf", 1:7)
+colnames(d)[41:47]<-paste0("contente", 1:7)
+colnames(d)[48:55]<-paste0("mediume", 1:8)
+d
+```
+```{r}
+d1<- d[, -c(2,3,4,5,6,7,14)] #unbrauchbare Spalten entfernen
+d1
+```
+
+
+ja und nein zu 0 und 1 umwandeln
+betrifft 
+- Spalte C15 (8) und C31 (24) nur Ja/Nein
+- Spalte contentftf1-6 (17-22)
+- Spalte contente1-6 (34-39)
+- Spalte mediume1-7 (41-47)
+```{r}
+class(d1)
+d1 <- as.data.frame(d1)
+
+
+#cbind(colnames(d1))
+#cat(paste0('"', colnames(d1)[c(8,17:24, 34:48)], '"'), sep = ", ")
+
+yesNo <- c("C15", "contentftf1", "contentftf2", "contentftf3", "contentftf4", "contentftf5", "contentftf6", "C31", "contente1", "contente2", "contente3", "contente4", "contente5", "contente6", "mediume1", "mediume2", "mediume3", "mediume4", "mediume5", "mediume6", "mediume7")
+
+for(i in yesNo){
+  print(i)
+  if(all(is.na(d1[d1[,i]!="Ja" & d[,i]!="Nein",i]))) {
+    d1[d1[,i]=="Ja"&!is.na(d1[,i]),i] <- 1 #Ja wird zu 1
+    d1[d1[,i]=="Nein"&!is.na(d1[,i]),i] <- 0 #Nein wird zu 0
+  } else {
+    d1[d1[,i]!="Ja" & d[,i]!="Nein",i] <- NA #weder "Ja" noch "Nein" soll NA werden
+    d1[d1[,i]=="Ja"&!is.na(d1[,i]),i] <- 1 #Ja wird zu 1
+    d1[d1[,i]=="Nein"&!is.na(d1[,i]),i] <- 0 #Nein wird zu 0
+  }
+  
+}
+```
+
+
+
+```{r}
+number<-c(paste0("expe", 1:9), paste0("expftf", 1:8)) #suche die betroffenen Spalten aus
+for(i in number){
+  d1[d1[,i]=="1 = Ich stimme gar nicht zu"&!is.na(d1[,i]),i] <- 1 #umbennenen
+  d1[d1[,i]=="7 = Ich stimme voll und ganz zu"&!is.na(d1[,i]),i] <- 7 #umbenennen
+}
+```
+
+```{r}
+Berufszweig <- c("C12")  # Suche die betroffene Spalte aus
+
+for (i in Berufszweig) {
+  
+  d1[d1[, i] %in% c("Wissenschaftliche oder akademische BerufeNaturwissenschaftler/innen, Mathematiker/innen und Ingenieur/innenSpezialisten/innen in GesundheitsberufenLehrkräfteBetriebswirte und vergleichbare Spezialisten/innenSpezialisten/innen in der Informations- und KommunikationstechnologieJuristen/innen, Sozialwissenschaftler/innen und Kulturberufe") & !is.na(d1[, i]), i] <- "Wissenschaftliche oder akademische Berufe"
+  
+  d1[d1[, i] %in% c("Bürokräfte und verwandte BerufeAllgemeine Büro- und SekretariatskräfteBürokräfte mit KundenkontaktBürokräfte Finanz- u. Rechnungswesen, Statistik und MaterialwirtschaftSonstige Bürokräfte und verwandte Berufe ") & !is.na(d1[, i]), i] <- "Bürokräfte und verwandte Berufe"
+  
+  d1[d1[, i] %in% c("FührungskräfteGeschäftsführer/innen, Vorstände, leitende Verwaltungsbedienstete u. gesetzgebenden KörperschaftenFührungskräfte im kaufmännischen BereichFührungskräfte in Produktion und spezialisierten DienstleistungenFührungskräfte in Hotels, Restaurants, Handel und sonst. Dienstleistungen") & !is.na(d1[, i]), i] <- "Führungskräfte"
+  
+  d1[d1[, i] %in% c("HilfsarbeitskräfteReinigungspersonal und HilfskräfteHilfskräfte in  Land-, Forstwirtschaft u. FischereiHilfskräfte im Bergbau, Bau, bei der Herstellung von Waren u. im TransportwesenHilfskräfte in der NahrungsmittelzubereitungAbfallentsorgungspersonal und sonstige Hilfsarbeitskräfte") & !is.na(d1[, i]), i] <- "Hilfsarbeitskräfte"
+  
+  d1[d1[, i] %in% c("Handwerks- und verwandte BerufeBau- u. Ausbaufachkräfte sowie verwandte Berufe, ausgen. Elektriker/innenMetallarbeiter/innen, Mechaniker/innen, Polymechaniker/innen, Produktionsmechaniker/innen und verwandte BerufePräzisionshandwerker/innen, Drucker/innen und kunsthandwerkliche BerufeElektriker/innen und Elektroniker/innenNahrungsmittelverarbeitung, Bekleidungsherstellung und verwandte handwerkliche Berufe") & !is.na(d1[, i]), i] <- "Handwerks- und verwandte Berufe"
+  
+  d1[d1[, i] %in% c("Fachkräfte in Land- und Forstwirtschaft und FischereiFachkräfte in der LandwirtschaftFachkräfte in Forstwirtschaft, Fischerei und Jagd – Marktproduktion") & !is.na(d1[, i]), i] <- "Fachkräfte in Land- und Forstwirtschaft und Fischerei"
+  
+  d1[d1[, i] %in% c("Bedienen von Anlagen u. Maschinen und MontageberufeBedienen stationärer Anlagen und MaschinenMontageberufeFahrzeugführen und bedienen mobiler Anlagen") & !is.na(d1[, i]), i] <- "Bedienen von Anlagen u. Maschinen und Montageberufe"
+  
+  d1[d1[, i] %in% c("Dienstleistungsberufe und Verkäufer/innenBerufe im Bereich personenbezogener DienstleistungenVerkaufskräfteBetreuungsberufeSchutzkräfte und Sicherheitsbedienstete") & !is.na(d1[, i]), i] <- "Dienstleistungsberufe und Verkäufer/innen"
+
+} #umbennenen
+```
+
+```{r}
+d1
+```
+
+
+
+```{r}
+d2 <- d1 %>%
+  mutate(
+    across(starts_with("exp"), as.numeric) #von Faktor zu numerisch
+  )
+d2
+View(d2)
+```
+Wie viele Teilnehmer:innen gibt es?
+```{r}
+n_distinct(d2$C1)
+```
+Wie ist die Geschlechteraufteilung?
+```{r}
+table(d2$C9)
+```
+Wie ist die Bildungsabschluss-Aufteilung?
+```{r}
+table(d2$C10)
+```
+Berufzweige?
+```{r}
+table(d2$C12)
+```
+
+
+
+```{r}
+expe_melted <- pivot_longer(expe_columns, cols = everything(), names_to = "variable") %>%
+  group_by(variable, value) %>%
+  summarize(count = sum(!is.na(value))) %>%
+  ggplot(aes(x = variable, y = count, fill = factor(value))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Erfahrungen mit online Verhandlungen") +
+  scale_fill_discrete(labels = c("1" = "1 = Ich stimme gar nicht zu", "7" = "7 = Ich stimme voll und ganz zu")) +
+  labs(fill = "Antworten") +
+  labs(x = "Skalenfragen",
+       y = "Anzahl Personen") +
+  scale_x_discrete(labels = c(
+    "expe1" = "Korrektheit der erhaltenen Information",
+    "expe2" = "Ehrlichkeit Verhandlungspartner:in",
+    "expe3" = "Verhandlungspartner:in war glaubwürdige Informationsquelle",
+    "expe4" = "Eigene Ehrlichkeit",
+    "expe5" = "Korrektheit eigener Informationen",
+    "expe6" = "Ich war glaubwürdige Informationsquelle",
+    "expe7" = "Elektronische Kenntnisse",
+    "expe8" = "Wohlfühlen bei der Kommunikation",
+    "expe9" = "Zukünftige eigene Unehrlichkeit bei Verhandlungen"
+  )) +
+  coord_flip()  #Tabelle umdrehen
+
+expe_melted
+```
+
+```{r}
+# Filtere nach expe-Spalten und setze Werte außerhalb von 1-7 auf NA
+expe_columns <- d2[, grep("^expe\\d$", names(d2))]
+expe_columns[expe_columns < 1 | expe_columns > 7] <- NA
+
+# Exkludiere expe7 aus der Berechnung des Durchschnitts (Konfort mit Computeruse)
+expe_columns <- expe_columns %>%
+  select(-expe7)
+
+# Berechne den Durchschnitt (Mean) der Antworten für jede expe-Frage
+expe_means <- expe_columns %>%
+  summarise(across(everything(), ~ mean(., na.rm = TRUE)))
+
+# Melt für die Darstellung als Balkendiagramm
+expe_melted <- pivot_longer(expe_means, cols = everything(), names_to = "variable", values_to = "mean_value") %>%
+  mutate(variable = factor(variable, levels = colnames(expe_columns)))  # Reihenfolge beibehalten
+
+# Balkendiagramm der Durchschnittswerte
+expe_plot <- ggplot(expe_melted, aes(x = variable, y = mean_value, fill = variable)) +
+  geom_bar(stat = "identity", fill = "gray") +  # Alle Balken in Grau
+   geom_text(aes(label = round(mean_value, 2)), vjust = -0.5, color = "black") +  # Textlabels mit gerundetem Durchschnitt
+  labs(title = "Experience with e-Negotiation") +
+  labs(fill = "expe-Fragen") +
+  labs(x = "Fragen",
+       y = "Durchschnittliche Antwort") +
+  theme(axis.text.x = element_text(hjust = 1))+
+  labs(x = " ",
+       y = "Accuracy") +
+  scale_x_discrete(labels = c(
+    "expe1" = "I felt the information provided by my partner was accurate",
+    "expe2" = "My partner was truthful in negotiating with me",
+    "expe3" = "My partner was a credible source of information",
+    "expe4" = "I was truthful in negotiating with my partner",
+    "expe5" = "I provided my partner with accurate information",
+    "expe6" = "I was a credible source of information",
+    "expe7" = "I am well acquainted with electronic devices",
+    "expe8" = "I felt comfortable communicating with my partner",
+    "expe9" = "If I had to do this again, I would use dishonesty to increase my profit"
+  )) +
+  coord_flip()  # Hier wird die Tabelle umgedreht
+# Diagramm anzeigen
+expe_plot
+```
+```{r}
+# Filtere nach expe-Spalten und setze Werte außerhalb von 1-7 auf NA
+expftf_columns <- d2[, grep("^expftf\\d$", names(d2))]
+expftf_columns[expftf_columns < 1 | expftf_columns > 7] <- NA
+
+# Berechne den Durchschnitt (Mean) der Antworten für jede expe-Frage
+expftf_means <- expftf_columns %>%
+  summarise(across(everything(), ~ mean(., na.rm = TRUE)))
+
+# Melt für die Darstellung als Balkendiagramm
+expftf_melted <- pivot_longer(expftf_means, cols = everything(), names_to = "variable", values_to = "mean_value") %>%
+  mutate(variable = factor(variable, levels = colnames(expftf_columns)))  # Reihenfolge beibehalten
+
+# Balkendiagramm der Durchschnittswerte
+expftf_plot <- ggplot(expftf_melted, aes(x = variable, y = mean_value, fill = variable)) +
+  geom_bar(stat = "identity", fill = "gray") +  # Alle Balken in Grau
+   geom_text(aes(label = round(mean_value, 2)), vjust = -0.5, color = "black") +  # Textlabels mit gerundetem Durchschnitt
+  labs(title = "Experience with face-to-face Negotiation") +
+  labs(fill = "expftf-Fragen") +
+  labs(x = "Fragen",
+       y = "Durchschnittliche Antwort") +
+  theme(axis.text.x = element_text(hjust = 1))+
+  labs(x = " ",
+       y = "Accuracy") +
+  scale_x_discrete(labels = c(
+    "expftf1" = "I felt the information provided by my partner was accurate",
+    "expftf2" = "My partner was truthful in negotiating with me",
+    "expftf3" = "My partner was a credible source of information",
+    "expftf4" = "I was truthful in negotiating with my partner",
+    "expftf5" = "I provided my partner with accurate information",
+    "expftf6" = "I was a credible source of information",
+    "expftf7" = "I felt comfortable communicating with my partner",
+    "expftf8" = "If I had to do this again, I would use dishonesty to increase my profit"
+  )) +
+  coord_flip()  # Hier wird die Tabelle umgedreht
+# Diagramm anzeigen
+expftf_plot
+```
+```{r}
+vergleichexp = (expe_plot+expftf_plot) #eine Grafik mit dem Namen "vergleich" mit den beiden expe und expftf Daten erstellen mit dem Package patchwork
+vergleichexp
+ggsave("HannaStoeckli_Vergleichexp.pdf", vergleichexp, width=15, height=8) #speichern als pdf, im selben Ordner wie die Daten her sind
+```
+
+
+```{r}
+#INHALT VON ONLINE VERHANDLUNGEN
+# Melt und Histogramm (nur Ja-Antworten)
+d2_melted <- d2_renamed %>%
+  pivot_longer(cols = starts_with("contente"), names_to = "content", values_to = "value") %>%
+  filter(value == 1) %>%  # Nur Ja-Antworten
+  group_by(content) %>%
+  summarize(count = n())
+
+# Manuell festgelegte X-Achse
+x_axis_breaks <- seq(0, max(d2_melted$count) + 2, by = 1)
+
+# Histogramm erstellen
+ggplot(d2_melted, aes(x = count, y = content)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "gray") +
+  labs(title = "E-negotiation content") +
+  labs(x = "Number of Respondents", y = "Content of Negotiation") +
+  theme_minimal() +
+  scale_x_continuous(breaks = x_axis_breaks) +
+  theme(axis.text.y = element_text(hjust = 0.5),  # Mittig ausgerichtete Beschriftungen auf y-Achse
+        axis.text.x = element_text(angle = 0, hjust = 1),  # Gerade x-Achsen-Beschriftungen
+        axis.text.y.left = element_text(hjust = 1),  # Benutzerdefinierte y-Achsen-Beschriftungen
+        axis.title.y = element_blank())+  # Titel auf der y-Achse entfernen
+   scale_y_discrete(labels = c(
+     "contente1" = "Employment contract of yourself",
+  "contente2" = "Employment contract of someone other",
+  "contente3" = "Buying object",
+  "contente4" = "Selling object",
+  "contente5" = "Buying service",
+  "contente6" = "Selling service",
+  "contente7" = "Not relevant content"))
+
+# Diagramm anzeigen
+d2_melted
+
+```
+
+
+```{r}
+#INHALT VON FACETOFACE VERHANDLUNGEN
+# Melt und Histogramm (nur Ja-Antworten) für contentftf
+d2_melted_ftf <- d2_renamed %>%
+  pivot_longer(cols = starts_with("contentftf"), names_to = "content", values_to = "value") %>%
+  filter(value == 1) %>%  # Nur Ja-Antworten
+  group_by(content) %>%
+  summarize(count = n())
+
+# Manuell festgelegte X-Achse für contentftf
+x_axis_breaks_ftf <- seq(0, max(d2_melted_ftf$count) + 2, by = 1)
+
+# Histogramm erstellen für contentftf
+ggplot(d2_melted_ftf, aes(x = count, y = content)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "gray") +
+  labs(title = "Face-to-face negotiation content") +
+  labs(x = "Number of Respondents", y = "Content of Negotiation") +
+  theme_minimal() +
+  scale_x_continuous(breaks = x_axis_breaks_ftf) +
+  theme(axis.text.y = element_text(hjust = 0.5),  # Mittig ausgerichtete Beschriftungen auf y-Achse
+        axis.text.x = element_text(angle = 0, hjust = 1),  # Gerade x-Achsen-Beschriftungen
+        axis.text.y.left = element_text(hjust = 1),  # Benutzerdefinierte y-Achsen-Beschriftungen
+        axis.title.y = element_blank()) +  # Titel auf der y-Achse entfernen
+  scale_y_discrete(labels = c(
+    "contentftf1" = "Employment contract of yourself",
+    "contentftf2" = "Employment contract of someone other",
+    "contentftf3" = "Buying object",
+    "contentftf4" = "Selling object",
+    "contentftf5" = "Buying service",
+    "contentftf6" = "Selling service"
+  ))
+
+# Diagramm anzeigen
+d2_melted_ftf
+```
+
+```{r}
+vergleichcontent = (d2_melted+d2_melted_ftf) #eine Grafik mit dem Namen "vergleich" mit den beiden Daten erstellen mit dem Package patchwork
+vergleichcontent
+ggsave("HannaStoeckli_Vergleichcontent.pdf", vergleichcontent, width=15, height=8) #speichern als pdf, im selben Ordner wie die Daten her sind
+```
+
+```{r}
+#MEDIUM VON E VERHANDLUNGEN
+# Melt und Histogramm 
+d2_mediume <- d2_renamed %>%
+  pivot_longer(cols = starts_with("mediume"), names_to = "mediume", values_to = "value") %>%
+  filter(value == 1) %>%  # Nur Ja-Antworten
+  group_by(mediume) %>%
+  summarize(count = n())
+
+# Manuell festgelegte X-Achse für contentftf
+x_axis_breaks_mediume <- seq(0, max(d2_mediume$count) + 2, by = 1)
+
+# Histogramm erstellen für contentftf
+ggplot(d2_mediume, aes(x = count, y = mediume)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "gray") +
+  labs(title = "Medium of e-negotiation") +
+  labs(x = "Number of Respondents", y = "Medium") +
+  theme_minimal() +
+  scale_x_continuous(breaks = x_axis_breaks_mediume) +
+  theme(axis.text.y = element_text(hjust = 0.5),  # Mittig ausgerichtete Beschriftungen auf y-Achse
+        axis.text.x = element_text(angle = 0, hjust = 1),  # Gerade x-Achsen-Beschriftungen
+        axis.text.y.left = element_text(hjust = 1),  # Benutzerdefinierte y-Achsen-Beschriftungen
+        axis.title.y = element_blank()) +  # Titel auf der y-Achse entfernen
+  scale_y_discrete(labels = c(
+    "mediume1" = "Mail via Computer/Laptop",
+    "mediume2" = "Mail via Handy",
+    "mediume3" = "Handy messenger (SMS)",
+    "mediume4" = "Negotiation platform via Computer/Laptop",
+    "mediume5" = "Negotiation platform via Handy",
+    "mediume6" = "Videocall via Handy",
+    "mediume7" = "Videocall via Computer/Handy"
+  ))
+
+# Diagramm anzeigen
+d2_mediume
+```
+
+```{r}
+
+```
+
+
+

@@ -1,0 +1,17 @@
+"0","```r
+table(d2$C10)
+```"
+"1","
+                                                    Bachelor 
+                                                           1 
+                                           Berufslehre (EFZ) 
+                                                           3 
+Berufsprüfung mit Meisterdiplom, Eidgenössischer Fachausweis 
+                                                           3 
+                                                    Doktorat 
+                                                           1 
+                                                      Master 
+                                                           5 
+                                                      Matura 
+                                                           1 
+"

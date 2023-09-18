@@ -1,0 +1,6 @@
+"0","```r
+vergleichcontent = (d2_melted+d2_melted_ftf) #eine Grafik mit dem Namen \"vergleich\" mit den beiden Daten erstellen mit dem Package patchwork
+```"
+"1","Error in Ops.data.frame(d2_melted, d2_melted_ftf) : 
+  ‘+’ ist nur für Dataframes gleicher Größe definiert
+"

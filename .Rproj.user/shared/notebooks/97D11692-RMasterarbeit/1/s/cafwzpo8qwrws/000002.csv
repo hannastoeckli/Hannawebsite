@@ -1,0 +1,4 @@
+"0","```r
+d  <- read_excel(\"C:\\Users\\hasto\\OneDrive\\Desktop\\results-survey137382.xlsx\")
+d
+```"

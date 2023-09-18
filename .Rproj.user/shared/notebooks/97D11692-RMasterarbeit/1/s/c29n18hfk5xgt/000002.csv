@@ -1,0 +1,32 @@
+"0","```r
+#INHALT VON FACETOFACE VERHANDLUNGEN
+# Melt und Histogramm (nur Ja-Antworten) für contentftf
+d2_melted_ftf <- d2_renamed %>%
+  pivot_longer(cols = starts_with(\"contentftf\"), names_to = \"content\", values_to = \"value\") %>%
+  filter(value == 1) %>%  # Nur Ja-Antworten
+  group_by(content) %>%
+  summarize(count = n())
+
+# Manuell festgelegte X-Achse für contentftf
+x_axis_breaks_ftf <- seq(0, max(d2_melted_ftf$count) + 2, by = 1)
+
+# Histogramm erstellen für contentftf
+ggplot(d2_melted_ftf, aes(x = count, y = content)) +
+  geom_bar(stat = \"identity\", position = \"dodge\", fill = \"gray\") +
+  labs(title = \"Face-to-face negotiation content\") +
+  labs(x = \"Number of Respondents\", y = \"Content of Negotiation\") +
+  theme_minimal() +
+  scale_x_continuous(breaks = x_axis_breaks_ftf) +
+  theme(axis.text.y = element_text(hjust = 0.5),  # Mittig ausgerichtete Beschriftungen auf y-Achse
+        axis.text.x = element_text(angle = 0, hjust = 1),  # Gerade x-Achsen-Beschriftungen
+        axis.text.y.left = element_text(hjust = 1),  # Benutzerdefinierte y-Achsen-Beschriftungen
+        axis.title.y = element_blank()) +  # Titel auf der y-Achse entfernen
+  scale_y_discrete(labels = c(
+    \"contentftf1\" = \"Employment contract of yourself\",
+    \"contentftf2\" = \"Employment contract of someone other\",
+    \"contentftf3\" = \"Buying object\",
+    \"contentftf4\" = \"Selling object\",
+    \"contentftf5\" = \"Buying service\",
+    \"contentftf6\" = \"Selling service\"
+  ))
+```"

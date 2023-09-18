@@ -1,0 +1,38 @@
+"0","```r
+# Filtere nach expe-Spalten und setze Werte außerhalb von 1-7 auf NA
+expftf_columns <- d2[, grep(\"^expftf\\d$\", names(d2))]
+expftf_columns[expftf_columns < 1 | expftf_columns > 7] <- NA
+
+# Berechne den Durchschnitt (Mean) der Antworten für jede expe-Frage
+expftf_means <- expftf_columns %>%
+  summarise(across(everything(), ~ mean(., na.rm = TRUE)))
+
+# Melt für die Darstellung als Balkendiagramm
+expftf_melted <- pivot_longer(expftf_means, cols = everything(), names_to = \"variable\", values_to = \"mean_value\") %>%
+  mutate(variable = factor(variable, levels = colnames(expftf_columns)))  # Reihenfolge beibehalten
+
+# Balkendiagramm der Durchschnittswerte
+expftf_plot <- ggplot(expftf_melted, aes(x = variable, y = mean_value, fill = variable)) +
+  geom_bar(stat = \"identity\", fill = \"gray\") +  # Alle Balken in Grau
+   geom_text(aes(label = round(mean_value, 2)), vjust = -0.5, color = \"black\") +  # Textlabels mit gerundetem Durchschnitt
+  labs(title = \"Experience with face-to-face Negotiation\") +
+  labs(fill = \"expftf-Fragen\") +
+  labs(x = \"Fragen\",
+       y = \"Durchschnittliche Antwort\") +
+  theme(axis.text.x = element_text(hjust = 1))+
+  labs(x = \" \",
+       y = \"Accuracy\") +
+  scale_x_discrete(labels = c(
+    \"expftf1\" = \"I felt the information provided by my partner was accurate\",
+    \"expftf2\" = \"My partner was truthful in negotiating with me\",
+    \"expftf3\" = \"My partner was a credible source of information\",
+    \"expftf4\" = \"I was truthful in negotiating with my partner\",
+    \"expftf5\" = \"I provided my partner with accurate information\",
+    \"expftf6\" = \"I was a credible source of information\",
+    \"expftf7\" = \"I felt comfortable communicating with my partner\",
+    \"expftf8\" = \"If I had to do this again, I would use dishonesty to increase my profit\"
+  )) +
+  coord_flip()  # Hier wird die Tabelle umgedreht
+# Diagramm anzeigen
+expftf_plot
+```"

@@ -1,0 +1,7 @@
+"0","```r
+d2 <- d1 %>%
+  mutate(
+    across(starts_with(\"exp\"), as.numeric) #von Faktor zu numerisch
+  )
+d2
+```"

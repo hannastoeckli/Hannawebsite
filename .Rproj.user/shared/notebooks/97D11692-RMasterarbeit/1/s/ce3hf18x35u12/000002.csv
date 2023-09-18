@@ -1,0 +1,11 @@
+"0","```r
+table(d2$C12)
+```"
+"1","
+                    Aktuell in Ausbildung           Bürokräfte und verwandte Berufe 
+                                        1                                         5 
+                           Führungskräfte                        Hilfsarbeitskräfte 
+                                        6                                         1 
+Wissenschaftliche oder akademische Berufe 
+                                        1 
+"

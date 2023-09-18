@@ -1,0 +1,49 @@
+"0","```r
+class(d1)
+```"
+"1","[1] \"tbl_df\"     \"tbl\"        \"data.frame\"
+"
+"0","```r
+d1 <- as.data.frame(d1)
+
+
+#cbind(colnames(d1))
+#cat(paste0('\"', colnames(d1)[c(8,17:24, 34:48)], '\"'), sep = \", \")
+
+yesNo <- c(\"C15\", \"contentftf1\", \"contentftf2\", \"contentftf3\", \"contentftf4\", \"contentftf5\", \"contentftf6\", \"C31\", \"contente1\", \"contente2\", \"contente3\", \"contente4\", \"contente5\", \"contente6\", \"mediume1\", \"mediume2\", \"mediume3\", \"mediume4\", \"mediume5\", \"mediume6\", \"mediume7\")
+
+for(i in yesNo){
+  print(i)
+  if(all(is.na(d1[d1[,i]!=\"Ja\" & d[,i]!=\"Nein\",i]))) {
+    d1[d1[,i]==\"Ja\"&!is.na(d1[,i]),i] <- 1 #Ja wird zu 1
+    d1[d1[,i]==\"Nein\"&!is.na(d1[,i]),i] <- 0 #Nein wird zu 0
+  } else {
+    d1[d1[,i]!=\"Ja\" & d[,i]!=\"Nein\",i] <- NA #weder \"Ja\" noch \"Nein\" soll NA werden
+    d1[d1[,i]==\"Ja\"&!is.na(d1[,i]),i] <- 1 #Ja wird zu 1
+    d1[d1[,i]==\"Nein\"&!is.na(d1[,i]),i] <- 0 #Nein wird zu 0
+  }
+  
+}
+```"
+"1","[1] \"C15\"
+[1] \"contentftf1\"
+[1] \"contentftf2\"
+[1] \"contentftf3\"
+[1] \"contentftf4\"
+[1] \"contentftf5\"
+[1] \"contentftf6\"
+[1] \"C31\"
+[1] \"contente1\"
+[1] \"contente2\"
+[1] \"contente3\"
+[1] \"contente4\"
+[1] \"contente5\"
+[1] \"contente6\"
+[1] \"mediume1\"
+[1] \"mediume2\"
+[1] \"mediume3\"
+[1] \"mediume4\"
+[1] \"mediume5\"
+[1] \"mediume6\"
+[1] \"mediume7\"
+"

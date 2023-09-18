@@ -1,2 +1,0 @@
-distill::create_website(dir = getwd(), gh_pages = TRUE)
-![Sunset in Basel :)](basel.jpg)

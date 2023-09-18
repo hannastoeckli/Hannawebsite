@@ -1,0 +1,32 @@
+"0","```r
+#INHALT VON ONLINE VERHANDLUNGEN
+# Melt und Histogramm (nur Ja-Antworten)
+d2_melted <- d2_renamed %>%
+  pivot_longer(cols = starts_with(\"contente\"), names_to = \"content\", values_to = \"value\") %>%
+  filter(value == 1) %>%  # Nur Ja-Antworten
+  group_by(content) %>%
+  summarize(count = n())
+
+# Manuell festgelegte X-Achse
+x_axis_breaks <- seq(0, max(d2_melted$count) + 2, by = 1)
+
+# Histogramm erstellen
+ggplot(d2_melted, aes(x = count, y = content)) +
+  geom_bar(stat = \"identity\", position = \"dodge\", fill = \"gray\") +
+  labs(title = \"E-negotiation content\") +
+  labs(x = \"Number of Respondents\", y = \"Content of Negotiation\") +
+  theme_minimal() +
+  scale_x_continuous(breaks = x_axis_breaks) +
+  theme(axis.text.y = element_text(hjust = 0.5),  # Mittig ausgerichtete Beschriftungen auf y-Achse
+        axis.text.x = element_text(angle = 0, hjust = 1),  # Gerade x-Achsen-Beschriftungen
+        axis.text.y.left = element_text(hjust = 1),  # Benutzerdefinierte y-Achsen-Beschriftungen
+        axis.title.y = element_blank())+  # Titel auf der y-Achse entfernen
+   scale_y_discrete(labels = c(
+     \"contente1\" = \"Employment contract of yourself\",
+  \"contente2\" = \"Employment contract of someone other\",
+  \"contente3\" = \"Buying object\",
+  \"contente4\" = \"Selling object\",
+  \"contente5\" = \"Buying service\",
+  \"contente6\" = \"Selling service\",
+  \"contente7\" = \"Not relevant content\"))
+```"
