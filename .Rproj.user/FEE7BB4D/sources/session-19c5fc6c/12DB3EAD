@@ -3,7 +3,7 @@
     "path": "C:/Users/hasto/OneDrive/Desktop/Hannawebsite/index.Rmd",
     "project_path": "index.Rmd",
     "type": "r_markdown",
-    "hash": "2823352422",
+    "hash": "3138809704",
     "contents": "",
     "dirty": false,
     "created": 1695037497476.0,
@@ -12,18 +12,18 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "18,182",
-        "scrollLine": "4",
+        "cursorPosition": "20,6",
+        "scrollLine": "0",
         "rmdVisualMode": "false",
         "rmdVisualCollapsedChunks": "",
         "rmdVisualModeLocation": "2:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1695041563,
+    "lastKnownWriteTime": 1695042288,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1695041563456,
+    "last_content_update": 1695042288786,
     "read_only": false,
     "read_only_alternatives": []
 }
