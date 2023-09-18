@@ -2,19 +2,19 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About this site",
-      "description": "Some additional details about the website",
+      "title": "About me",
+      "description": "My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations.",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2023-09-18T13:48:40+02:00"
+      "last_modified": "2023-09-18T14:41:51+02:00"
     },
     {
       "path": "index.html",
-      "title": "My Website",
-      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "title": "Welcome to Hannas Website",
+      "description": "Have a nice day!\n",
       "author": [],
-      "contents": "\r\nSunset in Basel :)\r\n\r\n\r\n",
-      "last_modified": "2023-09-18T13:48:41+02:00"
+      "contents": "\r\nSunset in Basel\r\n\r\n\r\n",
+      "last_modified": "2023-09-18T14:41:52+02:00"
     }
   ],
   "collections": []
