@@ -1,7 +1,7 @@
 ---
-title: "About this site"
+title: "About me"
 description: |
-  Some additional details about the website
+  My name is Hanna and I'm studying Psychology at the University of Basel. I'm currently working on my master thesis about e-negotiations.
 ---
 
 ```{r setup, include=FALSE}

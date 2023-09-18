@@ -1,8 +1,9 @@
 ---
-title: "My Website"
+title: "Welcome to Hannas Website"
 image: "basel.jpg"
+
 description: |
-  Welcome to the website. I hope you enjoy it!
+  Have a nice day!
 site: distill::distill_website
 ---
 
@@ -15,6 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-![Sunset in Basel :)](basel.jpg)
+![Sunset in Basel](basel.jpg)
 
 

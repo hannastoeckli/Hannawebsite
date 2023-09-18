@@ -3,7 +3,7 @@
     "path": "C:/Users/hasto/OneDrive/Desktop/Hannawebsite/about.Rmd",
     "project_path": "about.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "103520915",
     "contents": "",
     "dirty": false,
     "created": 1695037489400.0,
@@ -11,14 +11,16 @@
     "relative_order": 4,
     "properties": {
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "1,16",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1693816730,
+    "lastKnownWriteTime": 1695040828,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1693816730,
+    "last_content_update": 1695040828427,
     "read_only": false,
     "read_only_alternatives": []
 }
